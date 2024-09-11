@@ -12,17 +12,21 @@ const authMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.header("Authorization")?.replace("Bearer ", "");
-
+  const token = req.headers.authorization?.replace("Bearer", "").trim();
+  console.log(token);
   if (!token) {
-    return res.status(401).json({ message: "No token provided" });
+    return res
+      .status(401)
+      .json({ message: "Access denied. No token provided." });
   }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as any;
     req.user = decoded; // JWT에서 사용자 정보 추출하여 req.user에 저장
+    console.log(req.user);
     next();
-  } catch (error) {
+  } catch (error: any) {
+    console.log("JWT Verification Error:", error.message);
     res.status(401).json({ message: "Invalid token" });
   }
 };
