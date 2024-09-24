@@ -26,15 +26,32 @@ model User {
 }
 
 model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
+  id          Int       @id @default(autoincrement())
+  title       String
   description String?
-  content   String?
-  published Boolean @default(false)
-  authorId  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
-  deletedAt DateTime?
-  author    User    @relation(fields: [authorId], references: [id])
+  content     String?
+  published   Boolean   @default(false)
+  authorId    Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  deletedAt   DateTime?
+  author      User      @relation(fields: [authorId], references: [id])
+  categories  PostCategory[] // Many-to-many 관계를 위한 중간 테이블
+}
+
+model Category {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  createdAt   DateTime     @default(now())
+  posts       PostCategory[] // Many-to-many 관계를 위한 중간 테이블
+}
+
+model PostCategory {
+  post       Post     @relation(fields: [postId], references: [id])
+  postId     Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  @@id([postId, categoryId]) // 복합 키 설정 (Many-to-Many 관계의 중간 테이블)
 }
 

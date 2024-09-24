@@ -35,7 +35,7 @@ export const loginUser = async (req: Request, res: Response) => {
         isBlocked: user.isBlocked,
       },
       JWT_SECRET,
-      { expiresIn: "1h" } // 토큰의 만료 시간 설정 (예: 1시간)
+      { expiresIn: "10h" } // 토큰의 만료 시간 설정 (예: 1시간)
     );
 
     res.json({ message: "Login successful", token });

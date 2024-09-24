@@ -22,7 +22,7 @@ const authMiddleware = (
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as any;
-    req.user = decoded; // JWT에서 사용자 정보 추출하여 req.user에 저장
+    req.user = decoded;
     console.log(req.user);
     next();
   } catch (error: any) {

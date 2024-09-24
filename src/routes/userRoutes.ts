@@ -8,7 +8,7 @@ import {
 } from "../controllers/userController";
 import authMiddleware from "../middleware/authMiddlewares";
 
-const router = Router();
+const router: Router = Router();
 
 router.get("/users", authMiddleware, getUsers);
 router.post("/users", createUser);
